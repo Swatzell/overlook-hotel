@@ -4,12 +4,50 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Webpack Starter Kit</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+  <title>Overlook Hotel</title>
 </head>
 <body>
-  <img src="./images/turing-logo.png" alt="turing logo">
-  
-  <!-- Do not include the scripts.js or class files here - it is done by the webpack server -->
+  <header>
+    <h1>Overlook Hotel</h1>
+
+  </header>
+  <section class="login-page view hidden">
+<div class="login-box">
+  <label for="uname"><b>Username</b></label>
+    <input type="text" placeholder="Enter Username" name="uname" required>
+
+    <label for="psw"><b>Password</b></label>
+    <input type="password" placeholder="Enter Password" name="psw" required>
+
+    <button class='login-button' type="submit">Login</button>
+
+</div>
+
+  </section>
+  <section class="user-booking-page view">
+  <img class='hotel-image'src="./images/overlook-hotel.png" alt="hotel image">
+  <aside class="all-bookings">
+    <h1>Your Past/Present Bookings:</h1>
+  </aside>
+
+  <form action="/action_page.php">
+    <label for="checkin">Check-in date:</label>
+    <input type="date" id="checkin" name="checkin"><br><br>
+    <label for="checkout">Check-out date:</label>
+    <input type="date" id="checkout" name="checkout"><br><br>
+    <input type="submit" value="Submit">
+  </form>
+
+  <aside class="total-money-spent">
+    <h1>Your Total Money Spent With Us</h1>
+  </aside>
+</section>
+<section class="available-rooms hidden">
+
+</section>
   <script src="bundle.js"></script>
 
 </body>

@@ -2,3 +2,38 @@
 body {
   background: radial-gradient(circle, rgba(63,94,251,1) 0%, rgba(252,70,107,1) 100%);
 }
+
+.login-box{
+  border: solid black;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+input[type=text], input[type=password] {
+  width: 25%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+.login-button {
+  background-color: #04AA6D;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+  width: 25%;
+}
+
+button:hover {
+  opacity: 0.8;
+}
+.hotel-image{
+  height: 450px;
+  width: 700px;
+}
+.hidden {
+  display:none !important
+}
