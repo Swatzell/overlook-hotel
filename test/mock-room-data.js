@@ -1,6 +1,6 @@
 module.exports = [
   {
-    number: 1,
+    number: 12,
     roomType: "residential suite",
     bidet: true,
     bedSize: "queen",
@@ -16,7 +16,7 @@ module.exports = [
     costPerNight: 477.38,
   },
   {
-    number: 3,
+    number: 15,
     roomType: "single room",
     bidet: false,
     bedSize: "king",
