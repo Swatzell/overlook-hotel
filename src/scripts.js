@@ -19,3 +19,8 @@ document.querySelector('.overlook').addEventListener('click', function() {
    loginPage.classList.remove('hidden')
    userBookingPage.classList.add('hidden')
 });
+
+loginButton.addEventListener("click", function() {
+    loginPage.classList.add('hidden')
+    userBookingPage.classList.remove('hidden')
+})
