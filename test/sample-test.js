@@ -1,7 +1,7 @@
 import chai from "chai";
 const expect = chai.expect;
 
-const { getBookingsForCustomer, calculateTotalSpent } = require("./JS-TDD.js");
+const { getBookingsForCustomer, calculateTotalSpent,filterRoomsByType, } = require("./JS-TDD.js");
 
 const customers = require("./mock-customer-data.js");
 const rooms = require("./mock-room-data.js");
@@ -26,3 +26,14 @@ describe('user bookings', () => {
     expect(totalSpent).to.equal(expectedTotal);
   })
 })
+
+
+describe('filterRoomsByType', () => {
+  it('should filter rooms by roomType', () => {
+    const availableRooms = [rooms[0], rooms[1], rooms[2]];
+    const filteredRooms = filterRoomsByType('suite', availableRooms);
+    expect(filteredRooms).to.be.an('array').that.includes(rooms[1]);
+    expect(filteredRooms).to.not.include(rooms[0]);
+    expect(filteredRooms).to.not.include(rooms[2]);
+  });
+});

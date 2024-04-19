@@ -19,7 +19,14 @@ function calculateTotalSpent(userId, rooms, bookings) {
   return totalSpent;
 }
 
+
+function filterRoomsByType(roomType, rooms) {
+  return rooms.filter(room => room.roomType === roomType);
+}
+
 module.exports = {
   getBookingsForCustomer,
   calculateTotalSpent,
+  filterRoomsByType,
+  
 };
