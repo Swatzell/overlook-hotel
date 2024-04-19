@@ -15,17 +15,26 @@ const loginButton = document.querySelector('.login-button');
 const submitBookingButton = document.querySelector('.booking-submit')
 const availableRoomsPage = document.querySelector('.available-rooms')
 
-document.querySelector('.overlook').addEventListener('click', function() {
-   loginPage.classList.remove('hidden')
-   userBookingPage.classList.add('hidden')
-});
 
 loginButton.addEventListener("click", function() {
-    loginPage.classList.add('hidden')
+    loginPage.classList.add('hidden'),
     userBookingPage.classList.remove('hidden')
 })
 
+
+
+
 submitBookingButton.addEventListener("click", function() {
-    userBookingPage.classList.add('hidden')
+    userBookingPage.classList.add('hidden'),
     availableRoomsPage.classList.remove('hidden')
 })
+
+document.querySelector('.overlook').addEventListener('click', function() {
+    loginPage.classList.remove('hidden'),
+    userBookingPage.classList.add('hidden')
+ });
+ 
+ document.querySelector('.overlook-booking').addEventListener('click', function() {
+    availableRoomsPage.classList.add('hidden'),
+    userBookingPage.classList.remove('hidden')
+ });
