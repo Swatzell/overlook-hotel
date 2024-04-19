@@ -1,7 +1,13 @@
 module.exports = [
   {
+    id: "5fwrgu4i7k55hl6t8",
+    userID: 1,
+    date: "2022/02/05",
+    roomNumber: 12,
+  },
+  {
     id: "5fwrgu4i7k55hl6sz",
-    userID: 9,
+    userID: 1,
     date: "2022/04/22",
     roomNumber: 15,
   },
@@ -22,11 +28,5 @@ module.exports = [
     userID: 20,
     date: "2022/02/16",
     roomNumber: 7,
-  },
-  {
-    id: "5fwrgu4i7k55hl6t8",
-    userID: 1,
-    date: "2022/02/05",
-    roomNumber: 12,
   },
 ];
