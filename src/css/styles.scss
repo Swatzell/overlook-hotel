@@ -45,18 +45,19 @@ input[type=text], input[type=password] {
 color: white;
 font-size: 35px;
 }
-.overlook {
+.overlook, .overlook-booking {
     cursor: pointer;
-    // background-color: #007bff;
     color: white;
     // padding: 10px 20px;
     border-radius: 5px;
     text-align: center;
     display: inline-block;
     transition: background-color 0.3s ease;
+    font-size: 35px;
+    margin-bottom: 0px;
 }
 
-.overlook:hover {
+.overlook:hover, .overlook-booking:hover{
     background-color: #0056b3;
 }
 
