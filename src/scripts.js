@@ -29,6 +29,9 @@ const availableRoomsPage = document.querySelector('.available-rooms')
 let customers = [];
 let bookings = [];
 let rooms = [];
+let userBookings = [];
+let totalAmountSpent = 0;
+
 function initialize() {
 Promise.all([
     getAllCustomers(),
@@ -57,7 +60,8 @@ addEventListener("load", function () {
 
 loginButton.addEventListener("click", function() {
     loginPage.classList.add('hidden'),
-    userBookingPage.classList.remove('hidden')
+    userBookingPage.classList.remove('hidden'),
+    handleLogin()
 })
 
 
@@ -84,3 +88,26 @@ document.querySelector('.overlook').addEventListener('click', function() {
     bookingsContainer.innerHTML = `<h1>Your Past/Present Bookings:</h1><ul>${userBookings.map(booking => `<li>${booking.date}: Room ${booking.roomNumber}</li>`).join('')}</ul>`;
     totalMoneySpentContainer.innerHTML = `<h1>Your Total Money Spent With Us: $${totalAmountSpent.toFixed(2)}</h1>`;
   }
+
+  function handleLogin() {
+    const username = document.querySelector('input[name="uname"]').value;
+    const password = document.querySelector('input[name="psw"]').value;
+  
+    if (username === 'customer50' && password === 'overlook2021') {
+      document.querySelector('.login-page').classList.add('hidden');
+      document.querySelector('.user-booking-page').classList.remove('hidden');
+
+      userBookings = bookings.filter(booking => booking.userID === 1);
+  
+      totalAmountSpent = userBookings.reduce((total, booking) => {
+        const room = rooms.find(room => room.number === booking.roomNumber);
+        return total + room.costPerNight;
+      }, 0);
+  
+    
+      displayBookingsAndTotalAmount();
+    } else {
+      alert('Invalid username or password');
+    }
+  }
+  
