@@ -76,6 +76,7 @@ loginButton.addEventListener("click", function() {
 submitBookingButton.addEventListener("click", function() {
     userBookingPage.classList.add('hidden'),
     availableRoomsPage.classList.remove('hidden')
+    handleBookingSubmission()
 })
 
 document.querySelector('.overlook').addEventListener('click', function() {
@@ -123,4 +124,32 @@ function handleLogin(userId) {
   function displayAvailableRooms(availableRooms) {
     const availableRoomsContainer = document.querySelector('.available-rooms');
     availableRoomsContainer.innerHTML = `<h1>Available Rooms:</h1><ul>${availableRooms.map(room => `<li>Room ${room.number}: ${room.roomType} - $${room.costPerNight.toFixed(2)}</li>`).join('')}</ul>`;
+  }
+
+  function handleBookingSubmission() {
+    
+  
+    const checkinDate = document.getElementById('checkin').value;
+  
+    
+    const formattedCheckinDate = new Date(checkinDate).toISOString().split('T')[0];
+  
+    
+    getAllBookings()
+      .then(bookings => {
+        
+        const bookedRoomsOnCheckinDate = bookings.filter(booking => booking.date === formattedCheckinDate).map(booking => booking.roomNumber);
+  
+        
+        return getAllRooms().then(rooms => {
+         
+          const availableRooms = rooms.filter(room => !bookedRoomsOnCheckinDate.includes(room.number));
+  
+          
+          displayAvailableRooms(availableRooms);
+        });
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
   }
