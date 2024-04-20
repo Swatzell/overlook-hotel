@@ -29,9 +29,31 @@ const availableRoomsPage = document.querySelector('.available-rooms')
 let customers = [];
 let bookings = [];
 let rooms = [];
+function initialize() {
+Promise.all([
+    getAllCustomers(),
+    getAllRooms(),
+    getAllBookings(),
+  ])
+  .then(([allCustomers, allRooms, allBookings]) => {
+    customers = allCustomers;
+    rooms = allRooms;
+    bookings = allBookings;
+  
+    console.log('All customers:', customers);
+    console.log('All rooms:', rooms);
+    console.log('All bookings:', bookings);
+  })
+  .catch(error => {
+    console.error('Error fetching data:', error);
+  });
+}
 
-
-
+addEventListener("load", function () {
+    setTimeout(() => {
+      initialize();
+    }, 1500);
+  });
 
 loginButton.addEventListener("click", function() {
     loginPage.classList.add('hidden'),
