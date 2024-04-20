@@ -16,6 +16,17 @@ const submitBookingButton = document.querySelector('.booking-submit')
 const availableRoomsPage = document.querySelector('.available-rooms')
 
 
+
+
+
+
+let customers = [];
+let bookings = [];
+let rooms = [];
+
+
+
+
 loginButton.addEventListener("click", function() {
     loginPage.classList.add('hidden'),
     userBookingPage.classList.remove('hidden')
