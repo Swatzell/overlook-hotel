@@ -65,8 +65,6 @@ loginButton.addEventListener("click", function() {
 
     if (userIdMatch) {
         const userId = parseInt(userIdMatch[1], 10);
-        loginPage.classList.add('hidden'),
-        userBookingPage.classList.remove('hidden'),
         handleLogin(userId);
     } else {
         alert('Invalid username format. Please use the format "customer<ID>".');
@@ -99,27 +97,7 @@ document.querySelector('.overlook').addEventListener('click', function() {
     totalMoneySpentContainer.innerHTML = `<h1>Your Total Money Spent With Us: $${totalAmountSpent.toFixed(2)}</h1>`;
   }
 
-//   function handleLogin() {
-//     const username = document.querySelector('input[name="uname"]').value;
-//     const password = document.querySelector('input[name="psw"]').value;
-  
-//     if (username === 'customer50' && password === 'overlook2021') {
-//       document.querySelector('.login-page').classList.add('hidden');
-//       document.querySelector('.user-booking-page').classList.remove('hidden');
 
-//       userBookings = bookings.filter(booking => booking.userID === 1);
-  
-//       totalAmountSpent = userBookings.reduce((total, booking) => {
-//         const room = rooms.find(room => room.number === booking.roomNumber);
-//         return total + room.costPerNight;
-//       }, 0);
-  
-    
-//       displayBookingsAndTotalAmount();
-//     } else {
-//       alert('Invalid username or password');
-//     }
-//   }
   
 function handleLogin(userId) {
     const username = document.querySelector('input[name="uname"]').value;
