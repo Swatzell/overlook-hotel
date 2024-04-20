@@ -121,10 +121,16 @@ function handleLogin(userId) {
     }
   }
 
-  function displayAvailableRooms(availableRooms) {
+  function displayAvailableRooms(availableRooms, checkinDate) {
     const availableRoomsContainer = document.querySelector('.available-rooms');
-    availableRoomsContainer.innerHTML = `<h1>Available Rooms:</h1><ul>${availableRooms.map(room => `<li>Room ${room.number}: ${room.roomType} - $${room.costPerNight.toFixed(2)}</li>`).join('')}</ul>`;
-  }
+    const roomsList = availableRooms.map(room => `
+        <li>
+            Room ${room.number}: ${room.roomType} - $${room.costPerNight.toFixed(2)}
+            <button class="book-room" data-room-number="${room.number}" data-checkin-date="${checkinDate}">Book</button>
+        </li>
+    `).join('');
+    availableRoomsContainer.innerHTML = `<h1>Available Rooms:</h1><ul>${roomsList}</ul>`;
+}
 
   function handleBookingSubmission() {
     
