@@ -129,9 +129,19 @@ function handleLogin(userId) {
             <button class="book-room" data-room-number="${room.number}" data-checkin-date="${checkinDate}">Book</button>
         </li>
     `).join('');
-    availableRoomsContainer.innerHTML = `<h1>Available Rooms:</h1><ul>${roomsList}</ul>`;
-}
+    availableRoomsContainer.innerHTML = `
+        <h1>Available Rooms:</h1>
+        <button class="back-to-booking">Back to Booking Page</button>
+        <ul>${roomsList}</ul>
+    `;
+    document.querySelector('.booking-info').classList.add('hidden'); // Hide booking info section
 
+    // Add event listener to back button
+    document.querySelector('.back-to-booking').addEventListener('click', function() {
+        availableRoomsContainer.classList.add('hidden');
+        userBookingPage.classList.remove('hidden');
+    });
+}
   function handleBookingSubmission() {
     
   
