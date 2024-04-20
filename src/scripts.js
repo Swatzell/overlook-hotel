@@ -119,3 +119,8 @@ function handleLogin(userId) {
       alert('Invalid username or password');
     }
   }
+
+  function displayAvailableRooms(availableRooms) {
+    const availableRoomsContainer = document.querySelector('.available-rooms');
+    availableRoomsContainer.innerHTML = `<h1>Available Rooms:</h1><ul>${availableRooms.map(room => `<li>Room ${room.number}: ${room.roomType} - $${room.costPerNight.toFixed(2)}</li>`).join('')}</ul>`;
+  }
