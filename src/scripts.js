@@ -61,8 +61,6 @@ loginButton.addEventListener("click", function() {
 })
 
 
-
-
 submitBookingButton.addEventListener("click", function() {
     userBookingPage.classList.add('hidden'),
     availableRoomsPage.classList.remove('hidden')
@@ -77,3 +75,12 @@ document.querySelector('.overlook').addEventListener('click', function() {
     availableRoomsPage.classList.add('hidden'),
     userBookingPage.classList.remove('hidden')
  });
+
+
+ function displayBookingsAndTotalAmount() {
+    const bookingsContainer = document.querySelector('.all-bookings');
+    const totalMoneySpentContainer = document.querySelector('.total-money-spent');
+  
+    bookingsContainer.innerHTML = `<h1>Your Past/Present Bookings:</h1><ul>${userBookings.map(booking => `<li>${booking.date}: Room ${booking.roomNumber}</li>`).join('')}</ul>`;
+    totalMoneySpentContainer.innerHTML = `<h1>Your Total Money Spent With Us: $${totalAmountSpent.toFixed(2)}</h1>`;
+  }
