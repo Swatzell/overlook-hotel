@@ -52,6 +52,12 @@ addEventListener("load", function () {
   }, 1500);
 });
 
+document.getElementById("roomTypeFilter").addEventListener("change", function() {
+    const selectedRoomType = this.value;
+    const checkinDate = document.getElementById("checkin").value;
+    handleBookingSubmission(checkinDate, selectedRoomType);
+  });
+
 loginButton.addEventListener("click", function () {
   const username = document.querySelector('input[name="uname"]').value;
   const userIdMatch = username.match(/^customer(\d+)$/);
@@ -64,9 +70,7 @@ loginButton.addEventListener("click", function () {
   }
 });
 
-document
-  .querySelector(".available-rooms")
-  .addEventListener("click", function (event) {
+document.querySelector(".available-rooms").addEventListener("click", function (event) {
     if (event.target.classList.contains("book-room")) {
       const roomNumber = parseInt(
         event.target.getAttribute("data-room-number")
@@ -83,20 +87,14 @@ submitBookingButton.addEventListener("click", function () {
 
   userBookingPage.classList.add("hidden");
   availableRoomsPage.classList.remove("hidden");
-
-  const checkinDate = document.getElementById("checkin").value;
+const checkinDate = document.getElementById("checkin").value;
   handleBookingSubmission(checkinDate);
 });
+
 document.querySelector(".overlook").addEventListener("click", function () {
   loginPage.classList.remove("hidden"), userBookingPage.classList.add("hidden");
 });
 
-// document
-//   .querySelector(".overlook-booking")
-//   .addEventListener("click", function () {
-//     availableRoomsPage.classList.add("hidden"),
-//       userBookingPage.classList.remove("hidden");
-//   });
 
 function displayBookingsAndTotalAmount() {
   const bookingsContainer = document.querySelector(".all-bookings");
@@ -157,61 +155,62 @@ function handleLogin(userId) {
   }
 }
 
+
 function displayAvailableRooms(availableRooms, checkinDate) {
-  const availableRoomsContainer = document.querySelector(".available-rooms");
-  const roomsList = availableRooms
-    .map(
-      (room) => `
-        <li>
-            Room ${room.number}: ${
-        room.roomType
-      } - $${room.costPerNight.toFixed(2)}
-            <button class="book-room" data-room-number="${
-              room.number
-            }" data-checkin-date="${checkinDate}">Book</button>
-        </li>
-    `
-    )
-    .join("");
-  availableRoomsContainer.innerHTML = `
-        <h1>Available Rooms:</h1>
-        <button class="back-to-booking">Back to Booking Page</button>
-        <ul>${roomsList}</ul>
-    `;
-  document.querySelector(".booking-info").classList.add("hidden");
-  document
-    .querySelector(".back-to-booking")
-    .addEventListener("click", function () {
-      availableRoomsContainer.classList.add("hidden");
+    const availableRoomsContainer = document.querySelector(".available-rooms-list");
+    const roomsList = availableRooms
+      .map(
+        (room) => `
+          <li>
+              Room ${room.number}: ${
+          room.roomType
+        } - $${room.costPerNight.toFixed(2)}
+              <button class="book-room" data-room-number="${
+                room.number
+              }" data-checkin-date="${checkinDate}">Book</button>
+          </li>
+      `
+      )
+      .join("");
+    availableRoomsContainer.innerHTML = roomsList;
+  
+
+    const backButton = document.querySelector(".back-to-booking");
+    backButton.addEventListener("click", function () {
+      availableRoomsContainer.parentElement.classList.add("hidden");
       userBookingPage.classList.remove("hidden");
     });
-}
-function handleBookingSubmission() {
-  const checkinDate = document.getElementById("checkin").value;
+  }
 
-  const formattedCheckinDate = new Date(checkinDate)
-    .toISOString()
-    .split("T")[0];
-
-  getAllBookings()
-    .then((bookings) => {
-      const bookedRoomsOnCheckinDate = bookings
-        .filter((booking) => booking.date === formattedCheckinDate)
-        .map((booking) => booking.roomNumber);
-
-      return getAllRooms().then((rooms) => {
-        const availableRooms = rooms.filter(
-          (room) => !bookedRoomsOnCheckinDate.includes(room.number)
-        );
-
-        displayAvailableRooms(availableRooms);
+function handleBookingSubmission(checkinDate, selectedRoomType = "all") {
+    const formattedCheckinDate = new Date(checkinDate)
+      .toISOString()
+      .split("T")[0];
+  
+    getAllBookings()
+      .then((bookings) => {
+        const bookedRoomsOnCheckinDate = bookings
+          .filter((booking) => booking.date === formattedCheckinDate)
+          .map((booking) => booking.roomNumber);
+  
+        return getAllRooms().then((rooms) => {
+          let availableRooms = rooms.filter(
+            (room) => !bookedRoomsOnCheckinDate.includes(room.number)
+          );
+  
+          if (selectedRoomType !== "all") {
+            availableRooms = availableRooms.filter(
+              (room) => room.roomType === selectedRoomType
+            );
+          }
+  
+          displayAvailableRooms(availableRooms, checkinDate);
+        });
+      })
+      .catch((error) => {
+        console.error("Error:", error);
       });
-    })
-    .catch((error) => {
-      console.error("Error:", error);
-    });
-}
-
+  }
 function bookRoom(roomNumber) {
   console.log("Book room button clicked");
 
@@ -242,17 +241,23 @@ function bookRoom(roomNumber) {
     displayBookingInfo("Invalid username format. Please login again.");
   }
 }
+
+
 function addNewBooking({ userId, formattedCheckinDate, roomNumber }) {
   const newBooking = { userID: userId, date: formattedCheckinDate, roomNumber };
   userBookings.push(newBooking);
   return addBooking(newBooking);
 }
+
+
 function updateTotalAmountSpent() {
   totalAmountSpent = userBookings.reduce((total, booking) => {
     const room = rooms.find((room) => room.number === booking.roomNumber);
     return total + room.costPerNight;
   }, 0);
 }
+
+
 function showBookingSuccess(roomNumber) {
   displayBookingInfo(`Room ${roomNumber} booked successfully!`);
   updateTotalAmountSpent();
@@ -263,6 +268,8 @@ function showBookingSuccess(roomNumber) {
   availableRoomsPage.classList.add("hidden");
   userBookingPage.classList.remove("hidden");
 }
+
+
 function getUserInfo() {
   const username = document.querySelector('input[name="uname"]').value;
   const userIdMatch = username.match(/^customer(\d+)$/);
