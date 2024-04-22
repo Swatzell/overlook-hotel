@@ -41,23 +41,35 @@
     <h1>Your Total Money Spent With Us:</h1>
   </aside>
   <div class ='booking-form'>
-  <!-- <form action="/action_page.php"> -->
     <label for="checkin">Check-in date:</label>
-    <input type="date" id="checkin" name="checkin"><br><br>
-    <label for="checkout">Check-out date:</label>
-    <input type="date" id="checkout" name="checkout"><br><br>
+    <input type="date" id="checkin" name="checkin" pattern="\d{4}-\d{2}-\d{2}" required><br><br>
     <button class='booking-submit' type="submit" value="Submit">Submit</button>
-  <!-- </form> -->
 </div>
 
 
 </section>
 <section class="available-rooms hidden">
-  <header>
-    <h1 class="overlook-booking">The Overlook Hotel</h1>
-</header>
-
+  <label for="roomTypeFilter">Filter by Room Type:</label>
+  <select id="roomTypeFilter">
+    <option value="all">All</option>
+    <option value="residential suite">Residential Suite</option>
+    <option value="suite">Suite</option>
+    <option value="single room">Single Room</option>
+  </select>
+  
+  <div class="available-rooms-container">
+    <h1>Available Rooms:</h1>
+    <button class="back-to-booking">Back to Booking Page</button>
+    <ul class="available-rooms-list"></ul>
+  </div>
+  
 </section>
+
+<section class="booking-info hidden">
+  <h1>Booking Information</h1>
+  <p class="booking-message"></p>
+</section>
+
   <script src="bundle.js"></script>
 
 </body>
