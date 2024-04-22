@@ -27,6 +27,17 @@ function filterRoomsByType(roomType, rooms) {
 }
 
 
+function getAvailableRooms(selectedDate, rooms, bookings) {
+ 
+  const bookingsOnSelectedDate = bookings.filter(booking => booking.date === selectedDate);
+
+  const bookedRoomNumbers = bookingsOnSelectedDate.map(booking => booking.roomNumber);
+
+  const availableRooms = rooms.filter(room => !bookedRoomNumbers.includes(room.number));
+
+  return availableRooms;
+}
+
 function displayBookingsAndTotalAmount(userBookings, totalAmountSpent) {
   let bookingsHTML = '<div>Your Past/Present Bookings:</div>';
   let totalMoneySpentHTML = `<div>Your Total Money Spent With Us: $${totalAmountSpent.toFixed(2)}</div>`;
@@ -61,5 +72,6 @@ module.exports = {
   calculateTotalSpent,
   filterRoomsByType,
   displayBookingsAndTotalAmount,
-  handleLogin
+  handleLogin,
+  getAvailableRooms
 };

@@ -6,11 +6,11 @@ import "./css/styles.scss";
 
 import {
   getAllCustomers,
-  getCustomerById,
+//   getCustomerById,
   getAllRooms,
   getAllBookings,
   addBooking,
-  deleteBookingById,
+//   deleteBookingById,
 } from "./apiCalls.js";
 
 console.log("This is the JavaScript entry file - your code begins here.");
@@ -182,65 +182,68 @@ function displayAvailableRooms(availableRooms, checkinDate) {
     });
   }
 
-function handleBookingSubmission(checkinDate, selectedRoomType = "all") {
-    const formattedCheckinDate = new Date(checkinDate)
-      .toISOString()
-      .split("T")[0];
+  function handleBookingSubmission(checkinDate, selectedRoomType = "all") {
+    
   
-    getAllBookings()
-      .then((bookings) => {
-        const bookedRoomsOnCheckinDate = bookings
-          .filter((booking) => booking.date === formattedCheckinDate)
-          .map((booking) => booking.roomNumber);
+    const formattedCheckinDate = formatCheckinDate(checkinDate);
+   
   
-        return getAllRooms().then((rooms) => {
-          let availableRooms = rooms.filter(
-            (room) => !bookedRoomsOnCheckinDate.includes(room.number)
-          );
+    const bookedRoomsOnCheckinDate = bookings
+      .filter((booking) => booking.date === formattedCheckinDate)
+      .map((booking) => booking.roomNumber);
+    console.log("Booked Rooms on Checkin Date:", bookedRoomsOnCheckinDate);
   
-          if (selectedRoomType !== "all") {
-            availableRooms = availableRooms.filter(
-              (room) => room.roomType === selectedRoomType
-            );
-          }
+   
+    let availableRooms = [...rooms];
+    console.log("All Rooms:", availableRooms);
   
-          displayAvailableRooms(availableRooms, checkinDate);
-        });
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
+   
+    availableRooms = availableRooms.filter(
+      (room) => !bookedRoomsOnCheckinDate.includes(room.number)
+    );
+
+  
+    if (selectedRoomType !== "all") {
+      availableRooms = availableRooms.filter(
+        (room) => room.roomType === selectedRoomType
+      );
+      
+    }
+  
+    displayAvailableRooms(availableRooms, checkinDate);
   }
+
+ 
 function bookRoom(roomNumber) {
-  console.log("Book room button clicked");
-
-  const userInfo = getUserInfo();
-  if (userInfo) {
-    const { userId, formattedCheckinDate } = userInfo;
-
-    addNewBooking({ userId, formattedCheckinDate, roomNumber })
-      .then((response) => {
-        console.log(response);
-
-        if (
-          response.message &&
-          response.message.includes("successfully posted")
-        ) {
-          showBookingSuccess(roomNumber);
-        } else {
-          handleBookingError("Failed to book the room. Please try again.");
-        }
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-        handleBookingError(
-          "An error occurred while booking the room. Please try again."
-        );
-      });
-  } else {
-    displayBookingInfo("Invalid username format. Please login again.");
+    console.log("Book room button clicked");
+  
+    const userInfo = getUserInfo();
+    if (userInfo) {
+      const { userId, formattedCheckinDate } = userInfo;
+  
+      addNewBooking({ userId, formattedCheckinDate, roomNumber })
+        .then((response) => {
+          console.log(response);
+  
+          if (
+            response.message &&
+            response.message.includes("successfully posted")
+          ) {
+            showBookingSuccess(roomNumber);
+          } else {
+            handleBookingError("Failed to book the room. Please try again.");
+          }
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+          handleBookingError(
+            "An error occurred while booking the room. Please try again."
+          );
+        });
+    } else {
+      displayBookingInfo("Invalid username format. Please login again.");
+    }
   }
-}
 
 
 function addNewBooking({ userId, formattedCheckinDate, roomNumber }) {
@@ -285,9 +288,9 @@ function getUserInfo() {
 }
 
 function formatCheckinDate(checkinDate) {
-  const dateObj = new Date(checkinDate);
-  return `${dateObj.getFullYear()}/${String(dateObj.getMonth() + 1).padStart(2,"0")}/${String(dateObj.getDate()).padStart(2, "0")}`;
-}
+    const dateObj = new Date(checkinDate);
+    return `${dateObj.getFullYear()}/${String(dateObj.getMonth() + 1).padStart(2, "0")}/${String(dateObj.getDate()).padStart(2, "0")}`;
+  }
 
 function displayBookingInfo(message) {
   const bookingInfoSection = document.querySelector(".booking-info");

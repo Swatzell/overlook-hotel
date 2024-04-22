@@ -23,4 +23,5 @@ module.exports = [
     numBeds: 1,
     costPerNight: 491.14,
   },
+  
 ];

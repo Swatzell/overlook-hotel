@@ -1,11 +1,50 @@
 import chai from "chai";
 const expect = chai.expect;
 
-const { getBookingsForCustomer, calculateTotalSpent,filterRoomsByType,displayBookingsAndTotalAmount,handleLogin } = require("./JS-TDD.js");
+const { getBookingsForCustomer, calculateTotalSpent, filterRoomsByType,displayBookingsAndTotalAmount, handleLogin, getAvailableRooms } = require("./JS-TDD.js");
 
 const customers = require("./mock-customer-data.js");
 const rooms = require("./mock-room-data.js");
 const bookings = require("./mock-booking-data.js");
+
+describe('getAvailableRooms', () => {
+  it('should return a list of available rooms for a given date', () => {
+    const selectedDate = "2022/02/05"; 
+    const expectedAvailableRooms = [
+      {
+        number: 2,
+        roomType: "suite",
+        bidet: false,
+        bedSize: "full",
+        numBeds: 2,
+        costPerNight: 477.38,
+      },
+      {
+        number: 7,
+        roomType: "single room",
+        bidet: false,
+        bedSize: "king",
+        numBeds: 1,
+        costPerNight: 491.14,
+      },
+    ];
+
+    const availableRooms = getAvailableRooms(selectedDate, rooms, bookings);
+
+    expect(availableRooms).to.deep.equal(expectedAvailableRooms);
+  });
+
+  it('should return an empty list if no rooms are available for a given date', () => {
+    const selectedDate = "2022/01/24";
+    const expectedAvailableRooms = [];
+
+    const availableRooms = getAvailableRooms(selectedDate, rooms, bookings);
+
+    expect(availableRooms).to.deep.equal(expectedAvailableRooms);
+  });
+});
+
+
 
 
 
