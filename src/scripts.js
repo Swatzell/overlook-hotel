@@ -7,13 +7,15 @@ import {
   addBooking,
 } from "./apiCalls.js";
 
-console.log("This is the JavaScript entry file - your code begins here.");
 const loginPage = document.querySelector(".login-page");
 const userBookingPage = document.querySelector(".user-booking-page");
 const loginButton = document.querySelector(".login-button");
 const submitBookingButton = document.querySelector(".booking-submit");
 const availableRoomsPage = document.querySelector(".available-rooms");
 const roomTypeFilter = document.getElementById("roomTypeFilter");
+const bookingsContainer = document.querySelector(".all-bookings");
+const totalMoneySpentContainer = document.querySelector(".total-money-spent");
+const availableRoomsContainer = document.querySelector(".available-rooms-list");
 
 let customers = [];
 let bookings = [];
@@ -79,14 +81,12 @@ submitBookingButton.addEventListener("click", function () {
   handleBookingSubmission(checkinDate);
 });
 
+
 document.querySelector(".overlook").addEventListener("click", function () {
   loginPage.classList.remove("hidden"), userBookingPage.classList.add("hidden");
 });
 
 function displayBookingsAndTotalAmount() {
-  const bookingsContainer = document.querySelector(".all-bookings");
-  const totalMoneySpentContainer = document.querySelector(".total-money-spent");
-
   const username = document.querySelector('input[name="uname"]').value;
   const userIdMatch = username.match(/^customer(\d+)$/);
 
@@ -106,14 +106,9 @@ function displayBookingsAndTotalAmount() {
             <ul>${filteredBookings
               .map(
                 (booking) =>
-                  `<li>${booking.date}: Room ${booking.roomNumber}</li>`
-              )
-              .join("")}</ul>`;
-
-    totalMoneySpentContainer.innerHTML = `<h1>Your Total Money Spent With Us: $${totalAmountSpent.toFixed(
-      2
-    )}</h1>`;
-  } else {
+                  `<li>${booking.date}: Room ${booking.roomNumber}</li>`).join("")}</ul>`;
+                    totalMoneySpentContainer.innerHTML = `<h1>Your Total Money Spent With Us: $${totalAmountSpent.toFixed(2)}</h1>`;
+    } else {
     displayBookingInfo("Invalid username format. Please login again.");
   }
 }
@@ -140,29 +135,20 @@ function handleLogin(userId) {
 }
 
 function displayAvailableRooms(availableRooms, checkinDate) {
-  const availableRoomsContainer = document.querySelector(
-    ".available-rooms-list"
-  );
+  
   const roomsList = availableRooms
     .map(
       (room) =>
         `<li>Room ${room.number}: ${
           room.roomType
-        } - $${room.costPerNight.toFixed(
-          2
-        )}<button class="book-room" data-room-number="${
-          room.number
-        }" data-checkin-date="${checkinDate}">Book</button></li>`
-    )
-    .join("");
-  availableRoomsContainer.innerHTML = roomsList;
-
-  const backButton = document.querySelector(".back-to-booking");
-  backButton.addEventListener("click", function () {
-    const availableRoomsContainer = document.querySelector(".available-rooms");
-    availableRoomsContainer.classList.add("hidden");
-    roomTypeFilter.selectedIndex = 0;
-    userBookingPage.classList.remove("hidden");
+        } - $${room.costPerNight.toFixed(2)}<button class="book-room" data-room-number="${room.number}" data-checkin-date="${checkinDate}">Book</button></li>`).join("");
+    availableRoomsContainer.innerHTML = roomsList;
+    const backButton = document.querySelector(".back-to-booking");
+    backButton.addEventListener("click", function () {
+      const availableRoomsContainer = document.querySelector(".available-rooms");
+      availableRoomsContainer.classList.add("hidden");
+      roomTypeFilter.selectedIndex = 0;
+      userBookingPage.classList.remove("hidden");
   });
 }
 
@@ -256,10 +242,7 @@ function getUserInfo() {
 
 function formatCheckinDate(checkinDate) {
   const dateObj = new Date(checkinDate);
-  return `${dateObj.getFullYear()}/${String(dateObj.getMonth() + 1).padStart(
-    2,
-    "0"
-  )}/${String(dateObj.getDate() + 1).padStart(2, "0")}`;
+  return `${dateObj.getFullYear()}/${String(dateObj.getMonth() + 1).padStart(2, "0")}/${String(dateObj.getDate() + 1).padStart(2, "0")}`;
 }
 
 function displayBookingInfo(message) {
