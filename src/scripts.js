@@ -27,17 +27,10 @@ let totalAmountSpent = 0;
 function initialize() {
   Promise.all([getAllCustomers(), getAllRooms(), getAllBookings()])
     .then(([allCustomers, allRooms, allBookings]) => {
-      console.log("Fetched customers:", allCustomers);
-      console.log("Fetched rooms:", allRooms);
-      console.log("Fetched bookings:", allBookings);
-
       customers = allCustomers;
       rooms = allRooms;
       bookings = allBookings;
 
-      console.log("All customers:", customers);
-      console.log("All rooms:", rooms);
-      console.log("All bookings:", bookings);
     })
     .catch((error) => {
       console.error("Error fetching data:", error);
@@ -81,7 +74,6 @@ document.querySelector(".available-rooms").addEventListener("click", function (e
   });
 
 submitBookingButton.addEventListener("click", function () {
-  console.log("Submit booking button clicked");
 
   userBookingPage.classList.add("hidden");
   availableRoomsPage.classList.remove("hidden");
@@ -190,7 +182,7 @@ function displayAvailableRooms(availableRooms, checkinDate) {
     const bookedRoomsOnCheckinDate = bookings
       .filter((booking) => booking.date === formattedCheckinDate)
       .map((booking) => booking.roomNumber);
-    console.log("Booked Rooms on Checkin Date:", bookedRoomsOnCheckinDate);
+  
   
    
     let availableRooms = [...rooms];
@@ -214,7 +206,6 @@ function displayAvailableRooms(availableRooms, checkinDate) {
 
  
 function bookRoom(roomNumber) {
-    console.log("Book room button clicked");
   
     const userInfo = getUserInfo();
     if (userInfo) {
