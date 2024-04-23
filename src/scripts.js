@@ -6,11 +6,9 @@ import "./css/styles.scss";
 
 import {
   getAllCustomers,
-//   getCustomerById,
   getAllRooms,
   getAllBookings,
   addBooking,
-//   deleteBookingById,
 } from "./apiCalls.js";
 
 console.log("This is the JavaScript entry file - your code begins here.");
