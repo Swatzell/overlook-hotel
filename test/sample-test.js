@@ -1,7 +1,7 @@
 import chai from "chai";
 const expect = chai.expect;
 
-const { getBookingsForCustomer, calculateTotalSpent,filterRoomsByType,displayBookingsAndTotalAmount,handleLogin } = require("./JS-TDD.js");
+const { getBookingsForCustomer, calculateTotalSpent, filterRoomsByType,displayBookingsAndTotalAmount, handleLogin, } = require("./JS-TDD.js");
 
 const customers = require("./mock-customer-data.js");
 const rooms = require("./mock-room-data.js");

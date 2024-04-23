@@ -8,16 +8,6 @@ export function getAllCustomers() {
         throw error;
       });
   }
-  
- export function getCustomerById(id) {
-    return fetch(`http://localhost:3001/api/v1/customers/${id}`)
-      .then(response => response.json())
-      .catch(error => {
-        console.error(`Error fetching customer with ID ${id}:`, error);
-        throw error;
-      });
-  }
-  
  
   export function getAllRooms() {
     return fetch('http://localhost:3001/api/v1/rooms')
@@ -56,14 +46,3 @@ export function getAllCustomers() {
     });
   }
   
- 
-  export function deleteBookingById(id) {
-    return fetch(`http://localhost:3001/api/v1/bookings/${id}`, {
-      method: 'DELETE',
-    })
-    .then(response => response.json())
-    .catch(error => {
-      console.error(`Error deleting booking with ID ${id}:`, error);
-      throw error;
-    });
-  }

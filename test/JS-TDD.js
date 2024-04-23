@@ -61,5 +61,5 @@ module.exports = {
   calculateTotalSpent,
   filterRoomsByType,
   displayBookingsAndTotalAmount,
-  handleLogin
+  handleLogin,
 };
