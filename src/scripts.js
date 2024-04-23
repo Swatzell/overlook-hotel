@@ -247,7 +247,7 @@ function getUserInfo() {
 
 function formatCheckinDate(checkinDate) {
   const dateObj = new Date(checkinDate);
-  return `${dateObj.getFullYear()}/${String(dateObj.getMonth() + 1).padStart(2, "0")}/${String(dateObj.getDate()).padStart(2, "0")}`;
+  return `${dateObj.getFullYear()}/${String(dateObj.getMonth() + 1).padStart(2, "0")}/${String(dateObj.getDate() + 1).padStart(2, "0")}`;
 }
 
 
