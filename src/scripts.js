@@ -1,7 +1,3 @@
-// This is the JavaScript entry file - your code begins here
-// Do not delete or rename this file ********
-
-// An example of how you tell webpack to use a CSS (SCSS) file
 import "./css/styles.scss";
 
 import {
@@ -30,7 +26,6 @@ function initialize() {
       customers = allCustomers;
       rooms = allRooms;
       bookings = allBookings;
-
     })
     .catch((error) => {
       console.error("Error fetching data:", error);
@@ -43,11 +38,13 @@ addEventListener("load", function () {
   }, 1500);
 });
 
-document.getElementById("roomTypeFilter").addEventListener("change", function() {
+
+document.getElementById("roomTypeFilter").addEventListener("change", function () {
     const selectedRoomType = this.value;
     const checkinDate = document.getElementById("checkin").value;
     handleBookingSubmission(checkinDate, selectedRoomType);
   });
+
 
 loginButton.addEventListener("click", function () {
   const username = document.querySelector('input[name="uname"]').value;
@@ -61,6 +58,7 @@ loginButton.addEventListener("click", function () {
   }
 });
 
+
 document.querySelector(".available-rooms").addEventListener("click", function (event) {
     if (event.target.classList.contains("book-room")) {
       const roomNumber = parseInt(
@@ -73,13 +71,14 @@ document.querySelector(".available-rooms").addEventListener("click", function (e
     }
   });
 
-submitBookingButton.addEventListener("click", function () {
 
+submitBookingButton.addEventListener("click", function () {
   userBookingPage.classList.add("hidden");
   availableRoomsPage.classList.remove("hidden");
-const checkinDate = document.getElementById("checkin").value;
+  const checkinDate = document.getElementById("checkin").value;
   handleBookingSubmission(checkinDate);
 });
+
 
 document.querySelector(".overlook").addEventListener("click", function () {
   loginPage.classList.remove("hidden"), userBookingPage.classList.add("hidden");
@@ -105,24 +104,15 @@ function displayBookingsAndTotalAmount() {
       return total + room.costPerNight;
     }, 0);
 
-    bookingsContainer.innerHTML = `
-            <h1>Your Past/Present Bookings:</h1>
-            <ul>
-                ${filteredBookings
-                  .map(
-                    (booking) =>
-                      `<li>${booking.date}: Room ${booking.roomNumber}</li>`
-                  )
-                  .join("")}
-            </ul>`;
+    bookingsContainer.innerHTML = `<h1>Your Past/Present Bookings:</h1>
+            <ul>${filteredBookings.map((booking) =>`<li>${booking.date}: Room ${booking.roomNumber}</li>`).join("")}</ul>`;
 
-    totalMoneySpentContainer.innerHTML = `<h1>Your Total Money Spent With Us: $${totalAmountSpent.toFixed(
-      2
-    )}</h1>`;
+    totalMoneySpentContainer.innerHTML = `<h1>Your Total Money Spent With Us: $${totalAmountSpent.toFixed(2)}</h1>`;
   } else {
     displayBookingInfo("Invalid username format. Please login again.");
   }
 }
+
 
 function handleLogin(userId) {
   const username = document.querySelector('input[name="uname"]').value;
@@ -147,93 +137,70 @@ function handleLogin(userId) {
 
 
 function displayAvailableRooms(availableRooms, checkinDate) {
-    const availableRoomsContainer = document.querySelector(".available-rooms-list");
-    const roomsList = availableRooms
-      .map(
-        (room) => `
-          <li>
-              Room ${room.number}: ${
-          room.roomType
-        } - $${room.costPerNight.toFixed(2)}
-              <button class="book-room" data-room-number="${
-                room.number
-              }" data-checkin-date="${checkinDate}">Book</button>
-          </li>
-      `
-      )
-      .join("");
-    availableRoomsContainer.innerHTML = roomsList;
-  
+  const availableRoomsContainer = document.querySelector(
+    ".available-rooms-list"
+  );
+  const roomsList = availableRooms.map((room) => `<li>Room ${room.number}: ${room.roomType} - $${room.costPerNight.toFixed(2)}<button class="book-room" data-room-number="${room.number}" data-checkin-date="${checkinDate}">Book</button></li>`).join("");
+  availableRoomsContainer.innerHTML = roomsList;
 
-    const backButton = document.querySelector(".back-to-booking");
-    backButton.addEventListener("click", function () {
-      availableRoomsContainer.parentElement.classList.add("hidden");
-      userBookingPage.classList.remove("hidden");
-    });
-    
-  }
+  const backButton = document.querySelector(".back-to-booking");
+  backButton.addEventListener("click", function () {
+    availableRoomsContainer.parentElement.classList.add("hidden");
+    userBookingPage.classList.remove("hidden");
+  });
+}
 
-  function handleBookingSubmission(checkinDate, selectedRoomType = "all") {
-    
-  
-    const formattedCheckinDate = formatCheckinDate(checkinDate);
-   
-  
-    const bookedRoomsOnCheckinDate = bookings
-      .filter((booking) => booking.date === formattedCheckinDate)
-      .map((booking) => booking.roomNumber);
-  
-  
-   
-    let availableRooms = [...rooms];
-    console.log("All Rooms:", availableRooms);
-  
-   
+
+function handleBookingSubmission(checkinDate, selectedRoomType = "all") {
+  const formattedCheckinDate = formatCheckinDate(checkinDate);
+
+  const bookedRoomsOnCheckinDate = bookings
+    .filter((booking) => booking.date === formattedCheckinDate)
+    .map((booking) => booking.roomNumber);
+
+  let availableRooms = [...rooms];
+  console.log("All Rooms:", availableRooms);
+
+  availableRooms = availableRooms.filter(
+    (room) => !bookedRoomsOnCheckinDate.includes(room.number)
+  );
+
+  if (selectedRoomType !== "all") {
     availableRooms = availableRooms.filter(
-      (room) => !bookedRoomsOnCheckinDate.includes(room.number)
+      (room) => room.roomType === selectedRoomType
     );
-
-  
-    if (selectedRoomType !== "all") {
-      availableRooms = availableRooms.filter(
-        (room) => room.roomType === selectedRoomType
-      );
-      
-    }
-  
-    displayAvailableRooms(availableRooms, checkinDate);
   }
 
- 
+  displayAvailableRooms(availableRooms, checkinDate);
+}
+
+
 function bookRoom(roomNumber) {
-  
-    const userInfo = getUserInfo();
-    if (userInfo) {
-      const { userId, formattedCheckinDate } = userInfo;
-  
-      addNewBooking({ userId, formattedCheckinDate, roomNumber })
-        .then((response) => {
-          console.log(response);
-  
-          if (
-            response.message &&
-            response.message.includes("successfully posted")
-          ) {
-            showBookingSuccess(roomNumber);
-          } else {
-            handleBookingError("Failed to book the room. Please try again.");
-          }
-        })
-        .catch((error) => {
-          console.error("Error:", error);
-          handleBookingError(
-            "An error occurred while booking the room. Please try again."
-          );
-        });
-    } else {
-      displayBookingInfo("Invalid username format. Please login again.");
-    }
+  const userInfo = getUserInfo();
+  if (userInfo) {
+    const { userId, formattedCheckinDate } = userInfo;
+
+    addNewBooking({ userId, formattedCheckinDate, roomNumber })
+      .then((response) => {
+        if (
+          response.message &&
+          response.message.includes("successfully posted")
+        ) {
+          showBookingSuccess(roomNumber);
+        } else {
+          handleBookingError("Failed to book the room. Please try again.");
+        }
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+        handleBookingError(
+          "An error occurred while booking the room. Please try again."
+        );
+      });
+  } else {
+    displayBookingInfo("Invalid username format. Please login again.");
   }
+}
 
 
 function addNewBooking({ userId, formattedCheckinDate, roomNumber }) {
@@ -277,10 +244,12 @@ function getUserInfo() {
   }
 }
 
+
 function formatCheckinDate(checkinDate) {
-    const dateObj = new Date(checkinDate);
-    return `${dateObj.getFullYear()}/${String(dateObj.getMonth() + 1).padStart(2, "0")}/${String(dateObj.getDate()).padStart(2, "0")}`;
-  }
+  const dateObj = new Date(checkinDate);
+  return `${dateObj.getFullYear()}/${String(dateObj.getMonth() + 1).padStart(2, "0")}/${String(dateObj.getDate()).padStart(2, "0")}`;
+}
+
 
 function displayBookingInfo(message) {
   const bookingInfoSection = document.querySelector(".booking-info");
@@ -294,6 +263,7 @@ function displayBookingInfo(message) {
 
   bookingInfoSection.classList.remove("hidden");
 }
+
 function handleBookingError(message) {
   displayBookingInfo(message);
 }
