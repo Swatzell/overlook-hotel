@@ -180,6 +180,7 @@ function displayAvailableRooms(availableRooms, checkinDate) {
       availableRoomsContainer.parentElement.classList.add("hidden");
       userBookingPage.classList.remove("hidden");
     });
+    
   }
 
   function handleBookingSubmission(checkinDate, selectedRoomType = "all") {

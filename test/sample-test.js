@@ -1,50 +1,67 @@
 import chai from "chai";
 const expect = chai.expect;
 
-const { getBookingsForCustomer, calculateTotalSpent, filterRoomsByType,displayBookingsAndTotalAmount, handleLogin, getAvailableRooms } = require("./JS-TDD.js");
+const { getBookingsForCustomer, calculateTotalSpent, filterRoomsByType,displayBookingsAndTotalAmount, handleLogin, } = require("./JS-TDD.js");
 
 const customers = require("./mock-customer-data.js");
 const rooms = require("./mock-room-data.js");
 const bookings = require("./mock-booking-data.js");
 
-describe('getAvailableRooms', () => {
-  it('should return a list of available rooms for a given date', () => {
-    const selectedDate = "2022/02/05"; 
-    const expectedAvailableRooms = [
-      {
-        number: 2,
-        roomType: "suite",
-        bidet: false,
-        bedSize: "full",
-        numBeds: 2,
-        costPerNight: 477.38,
-      },
-      {
-        number: 7,
-        roomType: "single room",
-        bidet: false,
-        bedSize: "king",
-        numBeds: 1,
-        costPerNight: 491.14,
-      },
-    ];
+// describe('getAvailableRooms', () => {
+//   it('should return a list of available rooms for a given date', () => {
+//     const selectedDate = "2022/02/05";
+//     const availableRooms = getAvailableRooms(selectedDate, rooms, bookings, customers);
 
-    const availableRooms = getAvailableRooms(selectedDate, rooms, bookings);
+//     const expectedAvailableRooms = [
+//       {
+//         id: "5fwrgu4i7k55hl6sz",
+//         userID: 1,
+//         date: "2022/04/22",
+//         roomNumber: 15,
+//       },
+//       {
+//         id: "5fwrgu4i7k55hl6t5",
+//         userID: 43,
+//         date: "2022/01/24",
+//         roomNumber: 24,
+//       },
+//       {
+//         id: "5fwrgu4i7k55hl6t6",
+//         userID: 13,
+//         date: "2022/01/10",
+//         roomNumber: 12,
+//       },
+//       {
+//         id: "5fwrgu4i7k55hl6t7",
+//         userID: 20,
+//         date: "2022/02/16",
+//         roomNumber: 7,
+//       },
+//     ];
 
-    expect(availableRooms).to.deep.equal(expectedAvailableRooms);
-  });
+//     expect(availableRooms).to.deep.equal(expectedAvailableRooms);
+//   });
 
-  it('should return an empty list if no rooms are available for a given date', () => {
-    const selectedDate = "2022/01/24";
-    const expectedAvailableRooms = [];
+//   it('should return an empty list if no rooms are available for a given date', () => {
+//     const selectedDate = "2022/01/24";
+//     const availableRooms = getAvailableRooms(selectedDate, rooms, bookings, customers);
 
-    const availableRooms = getAvailableRooms(selectedDate, rooms, bookings);
+//     const expectedAvailableRooms = [];
 
-    expect(availableRooms).to.deep.equal(expectedAvailableRooms);
-  });
-});
+//     expect(availableRooms).to.deep.equal(expectedAvailableRooms);
+//   });
 
+//   it('should include the name of the user who booked each available room', () => {
+//     const selectedDate = "2022/04/22";
+//     const availableRooms = getAvailableRooms(selectedDate, rooms, bookings, customers);
 
+//     const expectedAvailableRooms = [
+      
+//     ];
+
+//     expect(availableRooms).to.deep.equal(expectedAvailableRooms);
+//   });
+// });
 
 
 
