@@ -13,6 +13,7 @@ const userBookingPage = document.querySelector(".user-booking-page");
 const loginButton = document.querySelector(".login-button");
 const submitBookingButton = document.querySelector(".booking-submit");
 const availableRoomsPage = document.querySelector(".available-rooms");
+const roomTypeFilter = document.getElementById("roomTypeFilter");
 
 let customers = [];
 let bookings = [];
@@ -45,7 +46,6 @@ document.getElementById("roomTypeFilter").addEventListener("change", function ()
     handleBookingSubmission(checkinDate, selectedRoomType);
   });
 
-
 loginButton.addEventListener("click", function () {
   const username = document.querySelector('input[name="uname"]').value;
   const userIdMatch = username.match(/^customer(\d+)$/);
@@ -57,7 +57,6 @@ loginButton.addEventListener("click", function () {
     alert('Invalid username format. Please use the format "customer<ID>".');
   }
 });
-
 
 document.querySelector(".available-rooms").addEventListener("click", function (event) {
     if (event.target.classList.contains("book-room")) {
@@ -72,6 +71,7 @@ document.querySelector(".available-rooms").addEventListener("click", function (e
   });
 
 
+
 submitBookingButton.addEventListener("click", function () {
   userBookingPage.classList.add("hidden");
   availableRoomsPage.classList.remove("hidden");
@@ -79,11 +79,9 @@ submitBookingButton.addEventListener("click", function () {
   handleBookingSubmission(checkinDate);
 });
 
-
 document.querySelector(".overlook").addEventListener("click", function () {
   loginPage.classList.remove("hidden"), userBookingPage.classList.add("hidden");
 });
-
 
 function displayBookingsAndTotalAmount() {
   const bookingsContainer = document.querySelector(".all-bookings");
@@ -105,14 +103,20 @@ function displayBookingsAndTotalAmount() {
     }, 0);
 
     bookingsContainer.innerHTML = `<h1>Your Past/Present Bookings:</h1>
-            <ul>${filteredBookings.map((booking) =>`<li>${booking.date}: Room ${booking.roomNumber}</li>`).join("")}</ul>`;
+            <ul>${filteredBookings
+              .map(
+                (booking) =>
+                  `<li>${booking.date}: Room ${booking.roomNumber}</li>`
+              )
+              .join("")}</ul>`;
 
-    totalMoneySpentContainer.innerHTML = `<h1>Your Total Money Spent With Us: $${totalAmountSpent.toFixed(2)}</h1>`;
+    totalMoneySpentContainer.innerHTML = `<h1>Your Total Money Spent With Us: $${totalAmountSpent.toFixed(
+      2
+    )}</h1>`;
   } else {
     displayBookingInfo("Invalid username format. Please login again.");
   }
 }
-
 
 function handleLogin(userId) {
   const username = document.querySelector('input[name="uname"]').value;
@@ -135,21 +139,32 @@ function handleLogin(userId) {
   }
 }
 
-
 function displayAvailableRooms(availableRooms, checkinDate) {
   const availableRoomsContainer = document.querySelector(
     ".available-rooms-list"
   );
-  const roomsList = availableRooms.map((room) => `<li>Room ${room.number}: ${room.roomType} - $${room.costPerNight.toFixed(2)}<button class="book-room" data-room-number="${room.number}" data-checkin-date="${checkinDate}">Book</button></li>`).join("");
+  const roomsList = availableRooms
+    .map(
+      (room) =>
+        `<li>Room ${room.number}: ${
+          room.roomType
+        } - $${room.costPerNight.toFixed(
+          2
+        )}<button class="book-room" data-room-number="${
+          room.number
+        }" data-checkin-date="${checkinDate}">Book</button></li>`
+    )
+    .join("");
   availableRoomsContainer.innerHTML = roomsList;
 
   const backButton = document.querySelector(".back-to-booking");
   backButton.addEventListener("click", function () {
-    availableRoomsContainer.parentElement.classList.add("hidden");
+    const availableRoomsContainer = document.querySelector(".available-rooms");
+    availableRoomsContainer.classList.add("hidden");
+    roomTypeFilter.selectedIndex = 0;
     userBookingPage.classList.remove("hidden");
   });
 }
-
 
 function handleBookingSubmission(checkinDate, selectedRoomType = "all") {
   const formattedCheckinDate = formatCheckinDate(checkinDate);
@@ -173,7 +188,6 @@ function handleBookingSubmission(checkinDate, selectedRoomType = "all") {
 
   displayAvailableRooms(availableRooms, checkinDate);
 }
-
 
 function bookRoom(roomNumber) {
   const userInfo = getUserInfo();
@@ -202,13 +216,11 @@ function bookRoom(roomNumber) {
   }
 }
 
-
 function addNewBooking({ userId, formattedCheckinDate, roomNumber }) {
   const newBooking = { userID: userId, date: formattedCheckinDate, roomNumber };
   userBookings.push(newBooking);
   return addBooking(newBooking);
 }
-
 
 function updateTotalAmountSpent() {
   totalAmountSpent = userBookings.reduce((total, booking) => {
@@ -216,7 +228,6 @@ function updateTotalAmountSpent() {
     return total + room.costPerNight;
   }, 0);
 }
-
 
 function showBookingSuccess(roomNumber) {
   displayBookingInfo(`Room ${roomNumber} booked successfully!`);
@@ -228,7 +239,6 @@ function showBookingSuccess(roomNumber) {
   availableRoomsPage.classList.add("hidden");
   userBookingPage.classList.remove("hidden");
 }
-
 
 function getUserInfo() {
   const username = document.querySelector('input[name="uname"]').value;
@@ -244,12 +254,13 @@ function getUserInfo() {
   }
 }
 
-
 function formatCheckinDate(checkinDate) {
   const dateObj = new Date(checkinDate);
-  return `${dateObj.getFullYear()}/${String(dateObj.getMonth() + 1).padStart(2, "0")}/${String(dateObj.getDate() + 1).padStart(2, "0")}`;
+  return `${dateObj.getFullYear()}/${String(dateObj.getMonth() + 1).padStart(
+    2,
+    "0"
+  )}/${String(dateObj.getDate() + 1).padStart(2, "0")}`;
 }
-
 
 function displayBookingInfo(message) {
   const bookingInfoSection = document.querySelector(".booking-info");
