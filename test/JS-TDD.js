@@ -27,25 +27,6 @@ function filterRoomsByType(roomType, rooms) {
 }
 
 
-// function getAvailableRooms(selectedDate, rooms, bookings, customers) {
-//   const bookingsOnSelectedDate = bookings.filter(booking => booking.date === selectedDate);
-//   const bookedRoomNumbers = bookingsOnSelectedDate.map(booking => booking.roomNumber);
-
-//   const availableRooms = rooms.filter(room => !bookedRoomNumbers.includes(room.number));
-
-//   availableRooms.forEach(room => {
-//     const booking = bookingsOnSelectedDate.find(booking => booking.roomNumber === room.number);
-//     if (booking) {
-//       const customer = customers.find(customer => customer.id === booking.userID);
-//       if (customer) {
-//         room.bookedBy = customer.name;
-//       }
-//     }
-//   });
-
-//   return availableRooms;
-// }
-
 function displayBookingsAndTotalAmount(userBookings, totalAmountSpent) {
   let bookingsHTML = '<div>Your Past/Present Bookings:</div>';
   let totalMoneySpentHTML = `<div>Your Total Money Spent With Us: $${totalAmountSpent.toFixed(2)}</div>`;
