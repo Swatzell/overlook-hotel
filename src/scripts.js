@@ -136,11 +136,7 @@ function handleLogin(userId) {
 
 function displayAvailableRooms(availableRooms, checkinDate) {
   
-  const roomsList = availableRooms
-    .map(
-      (room) =>
-        `<li>Room ${room.number}: ${
-          room.roomType
+  const roomsList = availableRooms.map((room) => `<li>Room ${room.number}: ${room.roomType
         } - $${room.costPerNight.toFixed(2)}<button class="book-room" data-room-number="${room.number}" data-checkin-date="${checkinDate}">Book</button></li>`).join("");
     availableRoomsContainer.innerHTML = roomsList;
     const backButton = document.querySelector(".back-to-booking");

@@ -28,7 +28,7 @@ Implement a robust testing suite using TDD
 Write DRY, reusable code that follows SRP (Single Responsibility Principle)
 
 ##Wins + Challenges:
-Learning new techniques like regular methods and using iterators with innerHtml was a major win for me.
+Learning new techniques like regular expressions and using iterators with innerHtml was a major win for me.
 A big challenge was making TDD work properly with mock data.
 A win and a challenge was making the entered date be in the proper format for the API data.
->>>>>>> main
+
