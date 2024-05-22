@@ -53,9 +53,31 @@ describe('user bookings and displayBookingsAndTotalAmount', () => {
     expect(totalMoneySpentHTML).to.include('Your Total Money Spent With Us');
     expect(totalMoneySpentHTML).to.include('$849.54');
   });
+
+  it('should not display bookings for a non-existent user', () => {
+    const nonExistentUserId = 99;
+
+    const userBookings = bookings.filter(booking => booking.userID === nonExistentUserId);
+
+    expect(userBookings).to.have.lengthOf(0);
+  });
+
+  it('should return an empty array if customer has no bookings', () => {
+    const customerId = 3;
+    const customerBookings = getBookingsForCustomer(customerId, bookings);
+    expect(customerBookings).to.be.an('array').that.is.empty;
+  });
+
+  it('should not allow booking without selecting a room', () => {
+    const selectedRoom = null;
+
+    expect(selectedRoom).to.be.null;
+  });
+
 });
 
-  describe('handleLogin', () => {
+
+describe('handleLogin', () => {
     it('should log in with correct credentials', () => {
       const userId = 1;
       const username = 'customer1';
